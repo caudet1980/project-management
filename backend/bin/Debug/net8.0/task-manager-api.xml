@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>task-manager-api</name>
+    </assembly>
+    <members>
+        <member name="M:AuthController.Login(TaskManagerApi.DTOs.Auth.LoginDto)">
+            <summary>
+            Authenticates a user and generates a JWT token.
+            </summary>
+            <param name="loginDto">The user's login information.</param>
+            <returns>An object containing the JWT token and the user's information.</returns>
+            <response code="200">The user has been authenticated successfully.</response>
+            <response code="400">The login data is invalid.</response>
+            <response code="401">Incorrect email or password.</response>
+            <response code="500">An internal error occurred.</response>    [HttpPost]
+        </member>
+        <member name="M:AuthController.Register(TaskManagerApi.DTOs.Auth.RegisterDto)">
+            <summary>
+            Registers a new user.
+            </summary>
+            <param name="registerDto">The user's registration information.</param>
+            <returns>An object containing the JWT token and the user's information.</returns>
+            <response code="200">The user has been registered successfully.</response>
+            <response code="400">A user with this email already exists or the data is invalid.</response>
+            <response code="500">An internal error occurred.</response>
+        </member>
+        <member name="M:TaskManagerApi.Controllers.TasksController.Delete(System.Guid)">
+            <summary>
+            Deletes a specific task by its ID for the authenticated user.
+            </summary>
+            <param name="taskId"></param>
+            <returns></returns>
+            <response code="204">Task deleted successfully.</response>
+            <response code="401">Unauthorized - the user is not authenticated.</response>
+            <response code="404">Not Found - no task with the specified ID exists or it does not belong to the authenticated user.</response>
+            <response code="400">Bad Request - invalid request parameters.</response>
+            <response code="500">Internal Server Error - an error occurred while processing the request</response>
+        </member>
+        <member name="M:TaskManagerApi.Controllers.TasksController.GetAll">
+            <summary>
+            Retrieves all tasks for the authenticated user.
+            </summary> 
+            <returns>A list of tasks for the authenticated user.</returns>
+            <response code="200">Tasks retrieved successfully.</response>
+            <response code="401">Unauthorized - the user is not authenticated.</response>
+            <response code="400">Bad Request - invalid request parameters.</response>
+            <response code="500">Internal Server Error - an error occurred while processing the request</response>
+        </member>
+        <member name="M:TaskManagerApi.Controllers.TasksController.GetById(System.Guid)">
+            <summary>
+            Retrieves a specific task by its ID for the authenticated user.
+            </summary>
+            <param name="taskId">The ID of the task to retrieve.</param>
+            <returns>The task with the specified ID if it exists and belongs to the authenticated user; otherwise, an appropriate error response.</returns>
+            <response code="200">Task retrieved successfully.</response>
+            <response code="401">Unauthorized - the user is not authenticated.</response>
+            <response code="404">Not Found - no task with the specified ID exists or it does not belong to the authenticated user.</response>
+            <response code="400">Bad Request - invalid request parameters.</response>
+            <response code="500">Internal Server Error - an error occurred while processing the request</response>
+        </member>
+        <member name="M:TaskManagerApi.Controllers.TasksController.Create(CreateTaskDto)">
+            <summary>
+            Creates a new task for the authenticated user.
+            </summary>
+            <param name="createTaskDto"></param>
+            <returns>The created task.</returns>
+            <response code="201">Task created successfully.</response>
+            <response code="401">Unauthorized - the user is not authenticated.</response>
+            <response code="400">Bad Request - invalid request parameters.</response>
+            <response code="500">Internal Server Error - an error occurred while processing the request</response>
+        </member>
+        <member name="M:TaskManagerApi.Controllers.TasksController.Update(System.Guid,UpdateTaskDto)">
+            <summary>
+            Updates an existing task for the authenticated user.
+            </summary>
+            <param name="taskId"></param>
+            <param name="updateTaskDto"></param>
+            <returns></returns>
+            <response code="200">Task updated successfully.</response>
+            <response code="401">Unauthorized - the user is not authenticated.</response>
+            <response code="404">Not Found - no task with the specified ID exists or it does not belong to the authenticated user.</response>
+            <response code="400">Bad Request - invalid request parameters.</response>
+            <response code="500">Internal Server Error - an error occurred while processing the request</response>
+        </member>
+        <member name="P:TaskManagerApi.DTOs.Auth.LoginDto.Email">
+            <summary>
+            User's email address.
+            </summary>
+            <example>test@test.com</example>
+        </member>
+        <member name="P:TaskManagerApi.DTOs.Auth.LoginDto.Password">
+            <summary>
+            User's password.
+            </summary>
+            <example>Test1234!</example>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.Id">
+            <summary>
+            Unique identifier for the task.
+            </summary>
+            <example>3fa85f64-5717-4562-b3fc-2c963f66afa6</example>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.Title">
+            <summary>
+            The title of the task.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.Description">
+            <summary>
+            The description of the task.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.IsCompleted">
+            <summary>
+            Indicates whether the task is completed.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.CreatedDate">
+            <summary>
+            Date and time when the task was created.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.DueDate">
+            <summary>
+            The date and time when the task is due.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.TaskItem.UserId">
+            <summary>
+            The unique identifier for the user who owns the task.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.Id">
+            <summary>
+            Unique identifier for the user.
+            </summary>
+            <example>3fa85f64-5717-4562-b3fc-2c963f66afa6</example>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.Email">
+            <summary>
+            User's email address.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.PasswordHash">
+            <summary>
+            Hashed password.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.FirstName">
+            <summary>
+            User's first name.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.LastName">
+            <summary>
+            User's last name.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.CreatedDate">
+            <summary>
+            Date and time when the user was created.
+            </summary>
+        </member>
+        <member name="P:TaskManagerApi.Entities.User.Tasks">
+            <summary>
+            Collection of tasks associated with the user.
+            </summary>
+        </member>
+        <member name="T:TaskManagerApi.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:TaskManagerApi.Migrations.AddErrorLog">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.AddErrorLog.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.AddErrorLog.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:TaskManagerApi.Migrations.AddErrorLog.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="P:ErrorLog.Id">
+            <summary>
+            Unique identifier for the error log entry
+            </summary>
+        </member>
+        <member name="P:ErrorLog.Message">
+            <summary>
+            The error message that was logged.
+            </summary>
+        </member>
+        <member name="P:ErrorLog.InnerMessage">
+            <summary>
+            The inner exception message.
+            </summary>
+        </member>
+        <member name="P:ErrorLog.StackTrace">
+            <summary>
+            The stack trace of the error.
+            </summary>
+        </member>
+        <member name="P:ErrorLog.CreatedDate">
+            <summary>
+            The timestamp of when the error occurred.
+            </summary>
+        </member>
+        <member name="P:ErrorLog.UserId">
+            <summary>
+            Unique identifier for the user associated with the error.
+            </summary>
+        </member>
+    </members>
+</doc>
