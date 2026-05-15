@@ -2,7 +2,7 @@
 
 A full-stack project management app built with React and .NET 8.
 
-**[Live Demo](#)** <!-- Replace with your deployed URL -->
+**[Live Demo](https://project-management-katon.vercel.app)** — Frontend on Vercel · API on Railway
 
 ## Features
 
