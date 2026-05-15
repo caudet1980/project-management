@@ -1,83 +1,84 @@
-import { useState, useRef } from "react";
-
+import { useState } from "react";
 import Input from "./Input";
-import Modal from "./Modal";
-import Errors from "./Errors";
 import Button from "./Button";
+import Toast from "./Toast";
+import { useLanguage } from "../context/LanguageContext";
 
-export default function CreateProject({onCancel, onSubmit}) {
-    const dialog = useRef();
+export default function CreateProject({ onCancel, onSubmit }) {
+    const { t } = useLanguage();
+    const today = new Date().toISOString().split('T')[0];
 
-    const titleRef = useRef('');
-    const descriptionRef = useRef('');
-    const dueDateRef = useRef(new Date().toISOString().split('T')[0]);
-    const [errors, setErrors] = useState([]);
-    const [project, setProject] = useState({
-        id: crypto.randomUUID(),
-        title: titleRef.current.value, 
-        description: descriptionRef.current.value, 
-        dueDate: dueDateRef.current.value ? new Date(dueDateRef.current.value) : null,
-        tasks: [],
-    });
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState('');
+    const [errors, setErrors] = useState({});
+    const [toast, setToast] = useState(null);
+
+    function validate(fields = { title, description, dueDate }) {
+        const newErrors = {};
+        if (!fields.title) newErrors.title = true;
+        if (!fields.description) newErrors.description = true;
+        if (!fields.dueDate || fields.dueDate < today) newErrors.dueDate = true;
+        return newErrors;
+    }
+
+    function handleChange(field, value) {
+        const updated = { title, description, dueDate, [field]: value };
+        if (field === 'title') setTitle(value);
+        if (field === 'description') setDescription(value);
+        if (field === 'dueDate') setDueDate(value);
+        if (errors[field]) setErrors(prev => ({ ...prev, [field]: !!validate(updated)[field] }));
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
-        
-        const newErrors = [];
-        if(!project.title) {
-            newErrors.push('Please enter a title for your project');
-        }
-
-        if(!project.description) {
-            newErrors.push('Please enter a description for your project');
-        }
-
-        if(!project.dueDate) {
-            newErrors.push('Please enter a due date for your project');
-        }
-
-        setErrors(newErrors);
-
-        if(newErrors.length > 0) {
-            dialog.current.showModal();
+        const newErrors = validate();
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setToast({ message: t('formError'), type: 'error' });
             return;
         }
-
-        onSubmit(project);
+        onSubmit({
+            id: crypto.randomUUID(),
+            title,
+            description,
+            dueDate: new Date(dueDate),
+            tasks: [],
+        });
     }
 
-    return(
-        <div className="create-project">
-            <Modal ref={dialog} buttonLabel="Close">
-                <Errors errors={errors } />
-            </Modal>
-            <form method="dialog" onSubmit={handleSubmit} onReset={onCancel}>
+    return (
+        <div className="create-project card">
+            <form onSubmit={handleSubmit} onReset={onCancel}>
                 <menu>
-                    <li><Button type="reset" mode="light" isDelete label="Cancel" /></li>
-                    <li><Button type="submit" label="Save" /></li>
+                    <li><Button type="reset" mode="secondary" isDelete label={t('cancel')} /></li>
+                    <li><Button type="submit" mode="primary" label={t('save')} /></li>
                 </menu>
-            </form>
-            <div>
-                <Input 
-                    label="Title" 
-                    input="input"
-                    ref={titleRef}
-                    onChange={() => setProject({...project, title: titleRef.current.value})}
-                />
-                <Input 
-                    label="Description" 
+                <div className="form-row">
+                    <Input
+                        label={t('projectTitle')}
+                        value={title}
+                        onChange={(e) => handleChange('title', e.target.value)}
+                        isInvalid={errors.title}
+                    />
+                    <Input
+                        label={t('projectDueDate')}
+                        type="date"
+                        min={today}
+                        value={dueDate}
+                        onChange={(e) => handleChange('dueDate', e.target.value)}
+                        isInvalid={errors.dueDate}
+                    />
+                </div>
+                <Input
+                    label={t('projectDescription')}
                     input="textarea"
-                    ref={descriptionRef}
-                    onChange={() => setProject({...project, description: descriptionRef.current.value})}
+                    value={description}
+                    onChange={(e) => handleChange('description', e.target.value)}
+                    isInvalid={errors.description}
                 />
-                <Input 
-                    label="Due Date" 
-                    input="input"
-                    ref={dueDateRef}
-                    onChange={() => setProject({...project, dueDate: dueDateRef.current.value ? new Date(dueDateRef.current.value) : null})}
-                    type="date" 
-                />
-              </div>
+            </form>
+            <Toast message={toast?.message} type={toast?.type} onClose={() => setToast(null)} />
         </div>
     );
 }

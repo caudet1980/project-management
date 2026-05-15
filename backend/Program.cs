@@ -70,6 +70,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IErrorLoggingService, ErrorLoggingService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -96,13 +97,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers["Authorization"].ToString();
-    Console.WriteLine($"Authorization header: {token}");
-    await next();
-});
-
 app.UseHttpsRedirection();
 app.UseCors("ReactApp");
 app.UseAuthentication();

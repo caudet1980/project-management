@@ -9,10 +9,11 @@ public class TaskItem
     public Guid Id { get; set; } = Guid.NewGuid();
     
     /// <summary>
-    /// The title of the task.
+    /// Unique identifier for the linked project
     /// </summary>
-    public string Title { get; set; } = string.Empty;
-    
+    public Guid ProjectId { get; set; }
+    public Project Project {get; set; } = null!;
+
     /// <summary>
     /// The description of the task.
     /// </summary>

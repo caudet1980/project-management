@@ -1,0 +1,42 @@
+{
+    "appName": "Project Manager",
+
+    "login": "Sign in",
+    "register": "Create account",
+    "loginSubtitle": "Start organizing your tasks",
+    "noAccount": "Don't have an account?",
+    "alreadyAccount": "Already have an account?",
+
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "logout": "Logout",
+    "close": "Close",
+
+    "addProject": "+ Add project",
+    "createProject": "Create new project",
+    "noProjectTitle": "No Project Selected",
+    "noProjectDesc": "Select a project or get started with a new one.",
+    "yourProjects": "Your projects",
+    "newProject": "New project",
+    "projectTitle": "Title",
+    "projectDescription": "Description",
+    "projectDueDate": "Due date",
+
+    "addTask": "Add task",
+    "tasks": "Tasks",
+    "noTasks": "No tasks for this project.",
+    "taskPlaceholder": "New task...",
+    "taskRequired": "Task cannot be empty.",
+
+    "formError": "Please fix the errors before continuing.",
+    "authError": "Invalid credentials.",
+    "createAccountError": "Error creating account.",
+    "deleteSuccess": "Project deleted successfully.",
+    "genericError": "An error occurred. Please try again."
+}

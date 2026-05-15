@@ -1,0 +1,42 @@
+{
+    "appName": "Project Manager",
+
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "loginSubtitle": "Commencer à organiser vos tâches",
+    "noAccount": "Pas encore de compte ?",
+    "alreadyAccount": "Déjà un compte ?",
+
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "logout": "Déconnexion",
+    "close": "Fermer",
+
+    "addProject": "+ Ajouter un projet",
+    "createProject": "Créer un nouveau projet",
+    "noProjectTitle": "Aucun projet sélectionné",
+    "noProjectDesc": "Sélectionnez un projet ou commencez avec un nouveau.",
+    "yourProjects": "Vos projets",
+    "newProject": "Nouveau projet",
+    "projectTitle": "Titre",
+    "projectDescription": "Description",
+    "projectDueDate": "Date d'échéance",
+
+    "addTask": "Ajouter une tâche",
+    "tasks": "Tâches",
+    "noTasks": "Aucune tâche pour ce projet.",
+    "taskPlaceholder": "Nouvelle tâche...",
+    "taskRequired": "La tâche ne peut pas être vide.",
+
+    "formError": "Veuillez corriger les erreurs avant de continuer.",
+    "authError": "Identifiants invalides.",
+    "createAccountError": "Erreur lors de la création du compte.",
+    "deleteSuccess": "Projet supprimé avec succès.",
+    "genericError": "Une erreur est survenue. Veuillez réessayer."
+}

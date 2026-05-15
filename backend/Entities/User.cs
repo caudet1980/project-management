@@ -37,4 +37,9 @@ public class User
     /// Collection of tasks associated with the user.
     /// </summary>
     public ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
+
+    /// <summary>
+    /// Collection of projects associated with the user.
+    /// </summary>
+    public ICollection<Project> Projects { get; set; } = new List<Project>();
 }

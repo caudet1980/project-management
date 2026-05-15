@@ -11,24 +11,30 @@ public class TaskService : ITaskService
     public TaskService(TaskManagerDbContext context)
         => _context = context;
 
-    public async Task<IEnumerable<TaskResponseDto>> GetAllAsync(Guid userId)
+    public async Task<IEnumerable<TaskResponseDto>> GetAllAsync(Guid projectId, Guid userId)
         => await _context.Tasks
             .AsNoTracking()
-            .Where(t => t.UserId == userId)
+            .Where(t => t.ProjectId == projectId && t.UserId == userId)
             .Select(t => MapToDto(t)).ToListAsync();
 
-    public async Task<TaskResponseDto?> GetByIdAsync(Guid id, Guid userId)
+    public async Task<TaskResponseDto?> GetByIdAsync(Guid taskId, Guid userId)
         => await _context.Tasks
             .AsNoTracking()
-            .Where(t => t.Id == id && t.UserId == userId)
+            .Where(t => t.Id == taskId && t.UserId == userId)
             .Select(t => MapToDto(t)).FirstOrDefaultAsync();
 
-    public async Task<TaskResponseDto> CreateAsync(CreateTaskDto createTaskDto, Guid userId)
+    public async Task<TaskResponseDto> CreateAsync(Guid projectId, CreateTaskDto createTaskDto, Guid userId)
     {
-        var task = new Entities.TaskItem
+        var projectExists = await _context.Projects
+            .AnyAsync(p => p.Id == projectId && p.UserId == userId);
+
+        if(!projectExists)
+            throw new UnauthorizedAccessException("Project not found.");
+
+        var task = new TaskItem
         {
-            Title = createTaskDto.Title,
-            Description = createTaskDto?.Description ?? string.Empty,
+            ProjectId = projectId,
+            Description = createTaskDto.Description,
             IsCompleted = false,
             CreatedDate = DateTime.UtcNow,
             DueDate = createTaskDto?.DueDate,
@@ -40,25 +46,9 @@ public class TaskService : ITaskService
         return MapToDto(task);
     }
 
-    public async Task<TaskResponseDto?> UpdateAsync(Guid id, UpdateTaskDto updateTaskDto, Guid userId)
+    public async Task<bool> DeleteAsync(Guid taskId, Guid userId)
     {
-        var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
-        if (task == null) 
-            return null;
-
-        task.Title = updateTaskDto.Title ?? task.Title;
-        task.Description = updateTaskDto.Description ?? task.Description;
-        task.IsCompleted = updateTaskDto?.IsCompleted ?? task.IsCompleted;
-        task.DueDate = updateTaskDto?.DueDate ?? task.DueDate;
-
-        await _context.SaveChangesAsync();
-
-        return MapToDto(task);
-    }
-
-    public async Task<bool> DeleteAsync(Guid id, Guid userId)
-    {
-        var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+        var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == taskId && t.UserId == userId);
         if (task == null) 
             return false;
 
@@ -72,7 +62,6 @@ public class TaskService : ITaskService
         => new TaskResponseDto
         {
             Id = task.Id,
-            Title = task.Title,
             Description = task.Description,
             IsCompleted = task.IsCompleted,
             CreatedDate = task.CreatedDate,

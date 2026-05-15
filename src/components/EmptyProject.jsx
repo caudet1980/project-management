@@ -1,12 +1,16 @@
 import Button from "./Button";
 import Intro from "./Intro";
+import TaskManagerIllustration from "./TaskManagerIllustration";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function EmptyProject({ openForm }) {
+    const { t } = useLanguage();
+
     return (
         <div className="empty-project">
-            <img src="logo.png" />
-            <Intro title="No Project Selected" description="Select a project or get started with a new one" />
-            <Button label="Create new project" openForm={openForm} />
+            <TaskManagerIllustration />
+            <Intro title={t('noProjectTitle')} description={t('noProjectDesc')} />
+            <Button label={t('createProject')} onClick={openForm} />
         </div>
     );
 }

@@ -1,13 +1,13 @@
-export default function Input({ label, input, ...props }) {
+export default function Input({ label, input, isInvalid, ...props }) {
 
     return (
-        <p className="input">
+        <div className={`input ${isInvalid ? 'input--invalid' : ''}`}>
             <label>{label}</label>
             {input === 'textarea' ? (
-                <textarea {...props} />
+                <textarea className="field-input" {...props} />
             ) : (
-                <input {...props} />
+                <input className="field-input" {...props} />
             )}
-        </p>
+        </div>
     );
 }
