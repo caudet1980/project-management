@@ -97,7 +97,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
 app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
